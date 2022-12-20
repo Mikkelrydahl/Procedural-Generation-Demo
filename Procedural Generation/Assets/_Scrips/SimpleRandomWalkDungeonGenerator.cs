@@ -12,11 +12,15 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
     //protected Vector2Int startPosition = Vector2Int.zero;
 
     [SerializeField]
-    private int iterations = 10;
-    [SerializeField]
-    public int walkLenght = 10;
-    [SerializeField]
-    public bool startRandomlyEachIteration = true;
+    protected SimpleRandomWalkData randomWalkParameters;
+
+    //De er blevet rykket til SimpleRandomWalkData
+    //[SerializeField]
+    //private int iterations = 10;
+    //[SerializeField]
+    //public int walkLenght = 10;
+    //[SerializeField]
+    //public bool startRandomlyEachIteration = true;
 
     //De her er allerede i AbstractDungeonGenerator
     //[SerializeField]
@@ -25,11 +29,13 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
     protected override void RunProceduralGeneration()
     {
         // Her bruger vi tilemapVisualizer
-        HashSet<Vector2Int> floorPosition = RunRandomWalk();
+        HashSet<Vector2Int> floorPosition = RunRandomWalk(randomWalkParameters, startPosition);
         //Her sletter vi det map der allerede er generetet så de ikke piler ovenpå hinanden
         tilemapVisualizer.Clear();
         //Her laver vi et nyt map
         tilemapVisualizer.PaintFloorTiles(floorPosition);
+        //Her laver vi horisontale og vertikale vægge
+        WallGenerator.CreateWalls(floorPosition, tilemapVisualizer);
         
         //Her kan vi se de skridt der bliver taget i consollen)
         //foreach (var positions in floorPosition)
@@ -38,18 +44,18 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
         //}
     }
     
-    protected HashSet<Vector2Int> RunRandomWalk()
+    protected HashSet<Vector2Int> RunRandomWalk(SimpleRandomWalkData parameters, Vector2Int position)
     {
-        var currentPosition = startPosition;
+        var currentPosition = position;
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
-        for (int i = 0; i < iterations; i++)
+        for (int i = 0; i < randomWalkParameters.iterations; i++)
         {
-            var path = ProceduralGenerationAlgorithms.SimpleRandomWalk(currentPosition, walkLenght);
+            var path = ProceduralGenerationAlgorithms.SimpleRandomWalk(currentPosition, randomWalkParameters.walkLength);
             // Hashset lader os tilføje path fra SimpleRandomWalk til floorPositions
             floorPositions.UnionWith(path); //kopier path til floorPositions i Hashset uden duplicates
 
             //tilader at starte ny iteration på et tilfældigt sted i pathen
-            if (startRandomlyEachIteration)
+            if (randomWalkParameters.startRandomlyEachIteration)
                 currentPosition = floorPositions.ElementAt(Random.Range(0, floorPositions.Count));
         }
         return floorPositions;
