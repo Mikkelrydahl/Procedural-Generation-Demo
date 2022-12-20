@@ -46,30 +46,31 @@ public static HashSet<Vector2Int> SimpleRandomWalk(Vector2Int startPosition, int
         while(roomsQueue.Count > 0)
         {
             var room = roomsQueue.Dequeue();
-            if(room.size.y >= minHeight && room.size.x >= minWidth)
+            //hvis room.size.y (som er højden på hele boxen) er større eller ligmed minHeight så kan rummet splittes.
+            if (room.size.y >= minHeight && room.size.x >= minWidth)
             {
                 if(Random.value < 0.5f)
-                {
+                {        
                     if(room.size.y >= minHeight * 2)
                     {
-                        SplitHorizontally(minWidth, minHeight, roomsQueue, room);
+                        SplitHorizontally(minHeight, roomsQueue, room);
                     } else if(room.size.x >= minWidth * 2)
                     {
-                        SplitVertically(minWidth, minHeight, roomsQueue, room);
+                        SplitVertically(minWidth, roomsQueue, room);
                     }else if(room.size.x >= minWidth && room.size.y >= minHeight)
                     {
                         roomsList.Add(room);
                     }
                 }
-                else
+                else 
                 {
                     if (room.size.x >= minWidth * 2)
                     {
-                        SplitVertically(minWidth, minHeight, roomsQueue, room);
+                        SplitVertically(minWidth, roomsQueue, room);
                     }
                     if (room.size.y >= minHeight * 2)
                     {
-                        SplitHorizontally(minWidth, minHeight, roomsQueue, room);
+                        SplitHorizontally(minHeight, roomsQueue, room);
                     }
                     else if (room.size.x >= minWidth && room.size.y >= minHeight)
                     {
@@ -81,14 +82,24 @@ public static HashSet<Vector2Int> SimpleRandomWalk(Vector2Int startPosition, int
         return roomsList;
     }
 
-    private static void SplitVertically(int minWidth, int minHeight, Queue<BoundsInt> roomsQueue, BoundsInt room)
+    private static void SplitVertically(int minWidth, Queue<BoundsInt> roomsQueue, BoundsInt room)
     {
-        throw new System.NotImplementedException();
+        var xSplit = Random.Range(1, room.size.x);
+        BoundsInt room1 = new BoundsInt(room.min, new Vector3Int(xSplit, room.size.y, room.size.z));
+        BoundsInt room2 = new BoundsInt(new Vector3Int(room.min.x + xSplit, room.min.y, room.min.z),
+            new Vector3Int(room.size.x - xSplit, room.size.y, room.size.z));
+        roomsQueue.Enqueue(room1);
+        roomsQueue.Enqueue(room2);
     }
 
-    private static void SplitHorizontally(int minWidth, int minHeight, Queue<BoundsInt> roomsQueue, BoundsInt room)
+    private static void SplitHorizontally(int minHeight, Queue<BoundsInt> roomsQueue, BoundsInt room)
     {
-        throw new System.NotImplementedException();
+        var ySplit = Random.Range(1, room.size.y);
+        BoundsInt room1 = new BoundsInt(room.min, new Vector3Int(room.size.x, ySplit, room.size.z));
+        BoundsInt room2 = new BoundsInt(new Vector3Int(room.min.x, room.min.y + ySplit, room.min.z),
+            new Vector3Int(room.size.x, room.size.y - ySplit, room.size.z));
+        roomsQueue.Enqueue(room1);
+        roomsQueue.Enqueue(room2);
     }
 }
 
