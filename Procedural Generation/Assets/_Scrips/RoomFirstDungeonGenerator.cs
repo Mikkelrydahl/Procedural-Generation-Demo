@@ -34,10 +34,10 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         }
         else
         {
-
+            floor = CreateSimpleRooms(roomsList);
         }
 
-        floor = CreateSimpleRooms(roomsList);
+        
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
         foreach (var room in roomsList)
