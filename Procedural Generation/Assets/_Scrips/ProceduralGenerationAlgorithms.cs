@@ -54,7 +54,7 @@ public static HashSet<Vector2Int> SimpleRandomWalk(Vector2Int startPosition, int
                     if(room.size.y >= minHeight * 2)
                     {
                         SplitHorizontally(minHeight, roomsQueue, room);
-                    } else if(room.size.x >= minWidth * 2)
+                    }else if(room.size.x >= minWidth * 2)
                     {
                         SplitVertically(minWidth, roomsQueue, room);
                     }else if(room.size.x >= minWidth && room.size.y >= minHeight)
@@ -68,7 +68,7 @@ public static HashSet<Vector2Int> SimpleRandomWalk(Vector2Int startPosition, int
                     {
                         SplitVertically(minWidth, roomsQueue, room);
                     }
-                    if (room.size.y >= minHeight * 2)
+                    else if (room.size.y >= minHeight * 2)
                     {
                         SplitHorizontally(minHeight, roomsQueue, room);
                     }
@@ -104,14 +104,34 @@ public static HashSet<Vector2Int> SimpleRandomWalk(Vector2Int startPosition, int
 }
 
 public static class Direction2D
-    //Direction2D laver directions
+    //Direction2D laver directions. Cardinal (UP RIGHT DOWN LEFT)
 {
     public static List<Vector2Int> cardinalDirectionsList = new List<Vector2Int>
     {
-        new Vector2Int(0,1), //UP
-        new Vector2Int(1,0), //RIGHT
-        new Vector2Int(0, -1), //DOWN
-        new Vector2Int(-1,0) //LEFT
+        new Vector2Int(0,1),    //UP
+        new Vector2Int(1,0),    //RIGHT
+        new Vector2Int(0, -1),  //DOWN
+        new Vector2Int(-1,0)    //LEFT
+    };
+
+    public static List<Vector2Int> diagonalDirectionsList = new List<Vector2Int>
+    {
+        new Vector2Int(1,1),    //UP-RIGHT
+        new Vector2Int(1,-1),   //RIGHT-DOWN
+        new Vector2Int(-1, -1), //DOWN-LEFT
+        new Vector2Int(-1,1)    //LEFT-UP
+    };
+
+    public static List<Vector2Int> eightDirectionsList = new List<Vector2Int>
+    {
+        new Vector2Int(0,1),    //UP
+        new Vector2Int(1,1),    //UP-RIGHT
+        new Vector2Int(1,0),    //RIGHT
+        new Vector2Int(1,-1),   //RIGHT-DOWN
+        new Vector2Int(0, -1),  //DOWN
+        new Vector2Int(-1, -1), //DOWN-LEFT
+        new Vector2Int(-1,0),   //LEFT
+        new Vector2Int(-1,1)    //LEFT-UP
     };
 
     public static Vector2Int GetRandomCardinalDirection()
