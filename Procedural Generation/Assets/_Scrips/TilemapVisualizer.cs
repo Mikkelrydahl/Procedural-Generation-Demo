@@ -14,8 +14,8 @@ public class TilemapVisualizer : MonoBehaviour
         wallInnerCornerDownLeft, wallInnerCornerDownRight, 
         wallDiagonalCornerDownRight, wallDiagonalCornerDownLeft, wallDiagonalCornerUpRight, wallDiagonalCornerUpLeft;
 
-    public void PaintFloorTiles(IEnumerable<Vector2Int> floorPositions)
     // IEnumerable er en generic form for en collection som man kan kigge igennem
+    public void PaintFloorTiles(IEnumerable<Vector2Int> floorPositions)
     {
         PaintFloor(floorPositions, floorTilemap, floorTile);
     }
@@ -58,13 +58,11 @@ public class TilemapVisualizer : MonoBehaviour
     }
 
     private void PaintSingleTile(Tilemap tilemap, TileBase tile, Vector2Int position)
-        // funktion er til at sætte tiles
     {
         var tilePosition = tilemap.WorldToCell((Vector3Int)position);
         tilemap.SetTile(tilePosition, tile);
     }
 
-    // Simpel sletter allerede eksiterende map
     public void Clear()
     {
         floorTilemap.ClearAllTiles();
