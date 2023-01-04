@@ -51,10 +51,8 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
         for (int i = 0; i < randomWalkParameters.iterations; i++)
         {
             var path = ProceduralGenerationAlgorithms.SimpleRandomWalk(currentPosition, randomWalkParameters.walkLength);
-            // Hashset lader os tilføje path fra SimpleRandomWalk til floorPositions
-            floorPositions.UnionWith(path); //kopier path til floorPositions i Hashset uden duplicates
+            floorPositions.UnionWith(path); 
 
-            //tilader at starte ny iteration på et tilfældigt sted i pathen
             if (randomWalkParameters.startRandomlyEachIteration)
                 currentPosition = floorPositions.ElementAt(Random.Range(0, floorPositions.Count));
         }
@@ -65,7 +63,7 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
         // Hvis StartRandomlyEachIteration er true så starter hver iteration et tilfældigt sted i pathen
 
 
-        //HUSK ( Video 5 min 11:30 (få den til ikke at gentage skridt)
+       
 
     }
 }
